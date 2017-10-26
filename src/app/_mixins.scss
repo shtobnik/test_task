@@ -1,0 +1,21 @@
+@mixin font-face($style-name, $file, $weight) {
+	$filepath: "../fonts/" + $file;
+
+	font-family: $style-name;
+	src: url($filepath + '.eot');
+	src: url($filepath + '.eot?#iefix') format('embedded-opentype'),
+		url($filepath + '.woff2') format('woff2'),
+		url($filepath + '.woff') format('woff'),
+		url($filepath + '.otf') format('opentype'),
+		url($filepath + '.svg#StagSans-Book') format('svg');
+    font-weight: $weight;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@include font-face('Stag Sans Medium', 'StagSans-Medium', 500);
+
+@mixin titleWidth($width) {
+	font-weight: $width;
+}

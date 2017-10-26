@@ -38,11 +38,23 @@ gulp.task("compile", ["tslint"], () => {
         .pipe(gulp.dest("build"));
 });
 
+
+/**
+ * Compile Sass sources and create sourcemaps in build directory.
+ */
+gulp.task('sass', function () {
+    return gulp.src('src/**/*.scss')
+      .pipe(sourcemaps.init())
+      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+      .pipe(sourcemaps.write(".", {sourceRoot: '/src'}))
+      .pipe(gulp.dest('build'));
+});
+
 /**
  * Copy all resources that are not TypeScript files into build directory.
  */
 gulp.task("resources", () => {
-    return gulp.src(["src/**/*", "!**/*.ts"])
+    return gulp.src(["src/**/*", "!**/*.ts", "!**/*.scss"])
         .pipe(gulp.dest("build"));
 });
 
@@ -60,13 +72,6 @@ gulp.task("libs", () => {
             '@angular/**/bundles/**'
         ], {cwd: "node_modules/**"}) /* Glob required here. */
         .pipe(gulp.dest("build/lib"));
-});
-
-
-gulp.task('sass', function () {
-    return gulp.src('src/**/*.scss')
-      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-      .pipe(gulp.dest('src/'));
 });
 
 /**
@@ -91,6 +96,6 @@ gulp.task('watch', function () {
 /**
  * Build the project.
  */
-gulp.task("build", ['compile', 'resources', 'libs', 'sass'], () => {
+gulp.task("build", ['compile', 'sass', 'resources', 'libs'], () => {
     console.log("Building the project ...");
 });

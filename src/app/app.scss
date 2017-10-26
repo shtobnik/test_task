@@ -1,3 +1,13 @@
 .content {
-    background: blue!important;
+    background: #fff;
+    box-shadow: 2px 0px 8px -2px #585757;
+    margin: -80px 130px 0;
+    padding: 50px 80px 60px;
+    position: relative;
+}
+
+h2 {
+    color:red;
+    // font-family: 'Stag Sans Medium';
+    @include titleWidth(1000);
 }
