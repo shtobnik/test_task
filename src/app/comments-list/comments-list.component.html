@@ -1,0 +1,173 @@
+<section class="early-comments" *ngIf="comments">
+    <div class="comment">
+        <ul class="early-comments-l">
+            <li class="early-comments-l-i" *ngFor="let comment of comments">
+                <div class="comment-content clearfix">
+                    <div class="img-wrap ft-l">
+                        <img src="{{comment.author.avatar}}" alt="" class="photo">
+                    </div>
+                    <div class="comment-i clearfix">
+                        <div class="comment-wrap">
+                            <div class="comment-info clearfix">
+                                <span class="comment-info-i ft-l name">{{comment.author.name}}</span>
+                                <span class="comment-info-i ft-l"></span>
+                                <div class="comment-info-i ft-l time info-block">
+                                    <div class="info-block-i">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <span>{{comment.created_at}}</span>
+                                        <!-- <span><strong>015-07-06</strong> at  <strong>13:57</strong></span> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="comment-text">{{comment.content}}</p>
+                            <ul class="comment-manage clearfix">
+                                <li class="manage-link ft-l">
+                                    <i class="fa fa-pencil-square-o ft-l" aria-hidden="true"></i>
+                                    <span class="ft-l">Edit</span>
+                                </li>
+                                <li class="manage-link cancel ft-l">
+                                    <i class="fa fa-times ft-l" aria-hidden="true"></i>
+                                    <span class="ft-l">Delete</span>
+                                </li>
+                                <li class="manage-link ft-l">
+                                    <i class="fa fa-reply ft-l" aria-hidden="true"></i>
+                                    <span class="ft-l {{comment.id}}" data-id="{{comment.id}}" (click)="replyToggle($event);">Reply</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+        
+                        <form action="" class="clearfix" name="{{comment.id}}" [hidden]="!replyOpen" method="post">
+                            <div class="reply-manage clearfix">
+                                <p class="reply-name manage-link ft-l">
+                                    <i class="fa fa-reply ft-l" aria-hidden="true"></i>
+                                    <span class="ft-l">{{comment.author.name}}</span>
+                                </p>
+                                <p class="manage-link cancel ft-r">
+                                    <i class="fa fa-times ft-l" aria-hidden="true"></i>
+                                    <span class="ft-l" data-id="{{comment.id}}" (click)="replyToggle($event)">Cancel</span>
+                                </p>
+                            </div>
+                            <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+                            <input type="submit" class="ft-r" value="Send">
+                        </form>
+        
+                        <section class="answers-wrap" *ngIf="comment.children && comment.children.length > 0" >
+                            <ul class="answers-l" *ngFor="let answer of comment.children">
+                                <li class="answers-l-i">
+                                    <div class="comment-content clearfix">
+                                        <div class="img-wrap ft-l">
+                                            <img src="{{answer.author.avatar}}" alt="" class="photo">
+                                        </div>
+            
+                                        <div class="comment-i">
+                                            <div class="comment-info clearfix">
+                                                <span class="comment-info-i ft-l name">{{answer.author.name}}</span>
+                                                <span class="comment-info-i ft-l"></span>
+                                                <div class="comment-info-i ft-l time info-block">
+                                                    <div class="info-block-i">
+                                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                        <span>{{answer.created_at}}</span>
+                                                        <!-- <span><strong>015-07-06</strong> at  <strong>13:57</strong></span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="comment-text">{{answer.content}}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- <div class="comment-content clearfix">
+            <div class="img-wrap ft-l">
+                <img src="../img/users/avatar1.png" alt="" class="photo">
+            </div>
+            <div class="comment-i clearfix">
+                <div class="comment-info clearfix">
+                    <span class="comment-info-i ft-l name">Kurt Thompson</span>
+                    <span class="comment-info-i ft-l"></span>
+                    <div class="comment-info-i ft-l time info-block">
+                        <div class="info-block-i">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <span><strong>015-07-06</strong> at  <strong>13:57</strong></span>
+                        </div>
+                    </div>
+                </div>
+                <p class="comment-text">If not everyone makes money blogging, why is blogging so popular?</p>
+                <ul class="comment-manage clearfix">
+                    <li class="manage-link ft-l">
+                        <i class="fa fa-pencil-square-o ft-l" aria-hidden="true"></i>
+                        <span class="ft-l">Edit</span>
+                    </li>
+                    <li class="manage-link ft-l">
+                        <i class="fa fa-times ft-l" aria-hidden="true"></i>
+                        <span class="ft-l">Delete</span>
+                    </li>
+                    <li class="manage-link ft-l">
+                        <i class="fa fa-reply ft-l" aria-hidden="true"></i>
+                        <span class="ft-l">Reply</span>
+                    </li>
+                </ul>
+
+                <form action="" class="clearfix" method="post">
+                    <div class="reply-manage clearfix">
+                        <p class="reply-name manage-link ft-l">
+                            <i class="fa fa-reply ft-l" aria-hidden="true"></i>
+                            <span class="ft-l">Kurt Thompson</span>
+                        </p>
+                        <p class="manage-link ft-r">
+                            <i class="fa fa-times ft-l" aria-hidden="true"></i>
+                            <span class="ft-l">Cancel</span>
+                        </p>
+                    </div>
+                    <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+                    <input type="submit" class="ft-r" value="Send">
+                </form>
+
+                <ul class="answers-l">
+                    <li class="answers-l-i">
+                        <div class="comment-content clearfix">
+                            <div class="img-wrap ft-l">
+                                <img src="../img/users/avatar1.png" alt="" class="photo">
+                            </div>
+
+                            <div class="comment-i">
+                                <div class="comment-info clearfix">
+                                    <span class="comment-info-i ft-l name">Kurt Thompson</span>
+                                    <span class="comment-info-i ft-l"></span>
+                                    <div class="comment-info-i ft-l time info-block">
+                                        <div class="info-block-i">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            <span><strong>015-07-06</strong> at  <strong>13:57</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="comment-text">If not everyone makes money blogging, why is blogging so popular?</p>
+                                <ul class="comment-manage clearfix">
+                                    <li class="manage-link ft-l">
+                                        <i class="fa fa-pencil-square-o ft-l" aria-hidden="true"></i>
+                                        <span class="ft-l">Edit</span>
+                                    </li>
+                                    <li class="manage-link ft-l">
+                                        <i class="fa fa-times ft-l" aria-hidden="true"></i>
+                                        <span class="ft-l">Delete</span>
+                                    </li>
+                                    <li class="manage-link ft-l">
+                                        <i class="fa fa-reply ft-l" aria-hidden="true"></i>
+                                        <span class="ft-l">Reply</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+
+</section>

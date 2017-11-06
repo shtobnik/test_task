@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./data.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "../data.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./data.service"], function (exports_1, contex
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, data_service_1, AppComponent;
+    var core_1, data_service_1, CommentsList;
     return {
         setters: [
             function (core_1_1) {
@@ -21,35 +21,36 @@ System.register(["@angular/core", "./data.service"], function (exports_1, contex
             }
         ],
         execute: function () {
-            AppComponent = (function () {
-                function AppComponent(_dataService) {
+            CommentsList = (function () {
+                function CommentsList(_dataService) {
                     this._dataService = _dataService;
                 }
-                AppComponent.prototype.ngOnInit = function () {
-                    console.log("Application component initialized ...");
+                CommentsList.prototype.ngOnInit = function () {
+                    this.onGetList();
+                    this.replyOpen = false;
                 };
-                AppComponent.prototype.newComment = function (form) {
-                    console.log('form', form);
-                    this.onSendNewComment(form);
-                };
-                AppComponent.prototype.onSendNewComment = function (form) {
+                CommentsList.prototype.onGetList = function () {
                     var _this = this;
-                    this._dataService.sendNewComment()
-                        .subscribe(function (response) { return _this.newCommentRes = response; }, function (error) { return alert(error); }, function () { return console.log("finished", _this.newComment); });
+                    this._dataService.getCommentsList()
+                        .subscribe(function (response) { return _this.comments = response; }, function (error) { return alert(error); }, function () { return console.log("Finished", _this.comments); });
                 };
-                return AppComponent;
+                CommentsList.prototype.replyToggle = function ($event) {
+                    document.getElementsByName($event.target.id)[0].hidden = !document.getElementsByName($event.target.id)[0].hidden;
+                };
+                return CommentsList;
             }());
-            AppComponent = __decorate([
+            CommentsList = __decorate([
                 core_1.Component({
-                    selector: "app",
-                    templateUrl: "./app/app.html",
-                    styleUrls: ['./app/app.css']
+                    // moduleId: module.id,
+                    selector: "comments-list",
+                    templateUrl: './app/comments-list/comments-list.component.html',
+                    styleUrls: ['./app/comments-list/comments-list.component.css']
                 }),
                 __metadata("design:paramtypes", [data_service_1.DataService])
-            ], AppComponent);
-            exports_1("AppComponent", AppComponent);
+            ], CommentsList);
+            exports_1("CommentsList", CommentsList);
         }
     };
 });
 
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=comments-list.component.js.map
