@@ -38,13 +38,13 @@
             <h3>Leave comment:</h3>
 
             <div class="comment new">
-                <form action="" class="clearfix" #form="ngForm" (ngSubmit)="newComment(form.value)" method="post">
+                <form action="" class="clearfix" #commentForm="ngForm" (ngSubmit)="newComment(commentForm.value)" method="post">
                     <div class="img-wrap ft-l">
                         <img src="../img/users/avatar1.png" alt="" class="photo">
                     </div>
                     <div class="comment-i clearfix">
                         <textarea name="newComment" id="" cols="30" rows="10" placeholder="Your Message" ngModel></textarea>
-                        <input type="submit" class="ft-r" value="Send">
+                        <input type="submit" class="ft-r" [disabled]="commentForm.invalid" value="Send">
                     </div>
                 </form>
             </div>

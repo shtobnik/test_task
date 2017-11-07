@@ -25,17 +25,19 @@ System.register(["@angular/core", "./data.service"], function (exports_1, contex
                 function AppComponent(_dataService) {
                     this._dataService = _dataService;
                 }
+                ;
                 AppComponent.prototype.ngOnInit = function () {
                     console.log("Application component initialized ...");
                 };
-                AppComponent.prototype.newComment = function (form) {
-                    console.log('form', form);
-                    this.onSendNewComment(form);
-                };
-                AppComponent.prototype.onSendNewComment = function (form) {
+                AppComponent.prototype.newComment = function (commentForm) {
                     var _this = this;
-                    this._dataService.sendNewComment()
-                        .subscribe(function (response) { return _this.newCommentRes = response; }, function (error) { return alert(error); }, function () { return console.log("finished", _this.newComment); });
+                    console.log('form', commentForm.newComment);
+                    // this.onSendNewComment(form);
+                    this._dataService.sendNewComment2(commentForm.newComment, null)
+                        .subscribe(function () {
+                        console.log('yes!', Response);
+                        _this._dataService.getCommentsList().subscribe(function (response) { return _this.comments = response; }, function (error) { return alert(error); }, function () { return console.log("Finished", _this.comments); });
+                    }, function (err) { return console.error('err', err); });
                 };
                 return AppComponent;
             }());

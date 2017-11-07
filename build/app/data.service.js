@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/toPromise"
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, http_2, DataService;
+    var core_1, http_1, DataService;
     return {
         setters: [
             function (core_1_1) {
@@ -18,7 +18,6 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/toPromise"
             },
             function (http_1_1) {
                 http_1 = http_1_1;
-                http_2 = http_1_1;
             },
             function (_1) {
             },
@@ -29,25 +28,54 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/toPromise"
             DataService = (function () {
                 function DataService(_http) {
                     this._http = _http;
+                    this.commentsUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
+                    this.newCommentUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
                 }
                 DataService.prototype.getCommentsList = function () {
-                    var params = new http_2.URLSearchParams();
+                    var params = new http_1.URLSearchParams();
                     params.set('count', '5');
                     params.set('offset', '0');
                     console.log('params', params);
-                    return this._http.get('http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments', {
+                    return this._http.get(this.commentsUrl, {
                         search: params
                     })
                         .map(function (res) { return res.json(); });
                 };
-                DataService.prototype.sendNewComment = function () {
-                    var params = new http_2.URLSearchParams();
+                DataService.prototype.sendNewComment = function (content, parent) {
+                    var params = new http_1.URLSearchParams();
                     params.set('content', 'check here');
                     params.set('parent', null);
                     console.log('params', params);
-                    return this._http.post('http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments', {
+                    return this._http.post(this.newCommentUrl, {
                         search: params
                     })
+                        .map(function (res) { return res.json(); });
+                };
+                DataService.prototype.sendNewComment1 = function (content, parent) {
+                    var body = JSON.stringify({ "content": content, "parent": parent });
+                    // var headers = new Headers();
+                    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
+                    return this._http.post(this.newCommentUrl, body, {})
+                        .map(function (res) { return res.json(); });
+                };
+                DataService.prototype.sendNewComment2 = function (content, parent) {
+                    var params = new http_1.URLSearchParams();
+                    // let setHeaders = new Headers();
+                    // setHeaders.append('Content-Type', 'application/json');
+                    // const options = new RequestOptions({
+                    //     responseType: ResponseContentType.Json,
+                    //     withCredentials: false
+                    // });
+                    // let body = JSON.stringify({"content": content, "parent": parent});
+                    // var headers = new Headers();
+                    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
+                    // return this._http.post(this.newCommentUrl, body, {})
+                    //     .map(res => res.json());
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    headers.append('Content-Type', 'application/json; charset=utf-8');
+                    console.log('content', content);
+                    var body = { "content": content, "parent": parent };
+                    return this._http.post(this.newCommentUrl, body, headers)
                         .map(function (res) { return res.json(); });
                 };
                 DataService.prototype.handleError = function (error) {
