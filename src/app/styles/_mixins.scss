@@ -18,21 +18,22 @@
 // Media Queries
 
 $small: 320px;
-$medium: 900px;
+$medium: 800px;
 $large: 1024px;
+
 
 @mixin respond-to($media) {
   @if $media == handhelds {
-    @media only screen and (max-width: $small) { @content; }
+    @media only screen and (orientation: portrait) { @content; }
   }
   @else if $media == hand-landscape {
     @media only screen and (orientation: landscape) { @content; }
   }
   @else if $media == small-screens {
-    @media only screen and (min-width: $small + 1) and (max-width: $small + 300) { @content; }
+    @media only screen and (max-width: $small + 300) { @content; }
   }
   @else if $media == medium-screens {
-    @media only screen and (min-width: $small + 300) and (max-width: $medium - 1) { @content; }
+    @media only screen and (max-width: $medium + 17) { @content; }
   }
   @else if $media == wide-screens {
     @media only screen and (min-width: $large) { @content; }

@@ -39,12 +39,12 @@
     .comment-i {
         margin-left: 75px;
 
+        @include respond-to(medium-screens) {
+            margin-left: 65px;
+        }
+        
         @include respond-to(handhelds) {
             margin-left: 38px;
-        }
-
-        @include respond-to(small-screens) {
-            margin-left: 65px;
         }
     }
 
