@@ -25,17 +25,57 @@ System.register(["@angular/core", "../data.service"], function (exports_1, conte
                 function CommentsList(_dataService) {
                     this._dataService = _dataService;
                 }
-                CommentsList.prototype.ngOnInit = function () {
-                    this.onGetList();
+                CommentsList.prototype.ngAfterViewInit = function () {
+                    this._dataService.getCommentsList();
                     this.replyOpen = false;
                 };
-                CommentsList.prototype.onGetList = function () {
-                    var _this = this;
-                    this._dataService.getCommentsList()
-                        .subscribe(function (response) { return _this.comments = response; }, function (error) { return alert(error); }, function () { return console.log("Finished", _this.comments); });
+                /**
+                 *
+                 * Toggle reply/edit form
+                 * @param event
+                 * @param isReply
+                 */
+                CommentsList.prototype.replyToggle = function ($event, isReply) {
+                    var formBlock = document.getElementsByName($event.target.id);
+                    if (formBlock[0].hidden || (!formBlock[0].hidden && this.isReplyForm === isReply)) {
+                        formBlock[0].hidden = !formBlock[0].hidden;
+                    }
+                    this.isReplyForm = isReply;
+                    if (!this.isReplyForm) {
+                        document.querySelector('.reply-form')[0].focus();
+                    }
                 };
-                CommentsList.prototype.replyToggle = function ($event) {
-                    document.getElementsByName($event.target.id)[0].hidden = !document.getElementsByName($event.target.id)[0].hidden;
+                /**
+                 * remove Comment
+                 * @param  event
+                 */
+                CommentsList.prototype.removeComment = function ($event) {
+                    var _this = this;
+                    this._dataService.removeComment($event.target.id)
+                        .subscribe(function () {
+                        _this._dataService.getCommentsList();
+                    });
+                };
+                /**
+                 * edit comment
+                 * @param commentId
+                 * @param formContent
+                 * @param isReply
+                 */
+                CommentsList.prototype.editComment = function (commentId, formContent, isReply) {
+                    var _this = this;
+                    if (!isReply) {
+                        this._dataService.onEditComment(commentId, formContent.editComment)
+                            .subscribe(function () {
+                            _this._dataService.getCommentsList();
+                        }, function (err) { return console.error('err', err); });
+                    }
+                    else {
+                        this._dataService.sendNewComment(commentId, formContent.editComment)
+                            .subscribe(function () {
+                            _this._dataService.getCommentsList();
+                        }, function (err) { return console.error('err', err); });
+                    }
                 };
                 return CommentsList;
             }());

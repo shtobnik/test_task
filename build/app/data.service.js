@@ -29,55 +29,70 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/toPromise"
                 function DataService(_http) {
                     this._http = _http;
                     this.commentsUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
-                    this.newCommentUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
                 }
-                DataService.prototype.getCommentsList = function () {
+                /**
+                 * comments list
+                 */
+                DataService.prototype.commentsList = function () {
                     var params = new http_1.URLSearchParams();
                     params.set('count', '5');
                     params.set('offset', '0');
-                    console.log('params', params);
                     return this._http.get(this.commentsUrl, {
                         search: params
                     })
                         .map(function (res) { return res.json(); });
                 };
-                DataService.prototype.sendNewComment = function (content, parent) {
+                DataService.prototype.getCommentsList = function () {
+                    var _this = this;
+                    this.commentsList()
+                        .subscribe(function (response) { return _this.comments = response; }, function (error) { return alert(error); }, function () {
+                        _this.comments.forEach(function (element) {
+                            if (element.author.id === 1) {
+                                _this.userId = element.author.id;
+                                _this.userImg = element.author.avatar;
+                            }
+                        });
+                    });
+                };
+                /**
+                 * new comment
+                 * @param parentId
+                 * @param content
+                 */
+                DataService.prototype.sendNewComment = function (parentId, content) {
                     var params = new http_1.URLSearchParams();
-                    params.set('content', 'check here');
-                    params.set('parent', null);
-                    console.log('params', params);
-                    return this._http.post(this.newCommentUrl, {
-                        search: params
-                    })
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    var body = { "content": content, "parent": parentId };
+                    return this._http.post(this.commentsUrl, body, options)
                         .map(function (res) { return res.json(); });
                 };
-                DataService.prototype.sendNewComment1 = function (content, parent) {
-                    var body = JSON.stringify({ "content": content, "parent": parent });
-                    // var headers = new Headers();
-                    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-                    return this._http.post(this.newCommentUrl, body, {})
+                /**
+                 * remove comment
+                 * @param commentId
+                 */
+                DataService.prototype.removeComment = function (commentId) {
+                    return this._http.delete(this.commentsUrl + '/' + commentId)
                         .map(function (res) { return res.json(); });
                 };
-                DataService.prototype.sendNewComment2 = function (content, parent) {
-                    var params = new http_1.URLSearchParams();
-                    // let setHeaders = new Headers();
-                    // setHeaders.append('Content-Type', 'application/json');
-                    // const options = new RequestOptions({
-                    //     responseType: ResponseContentType.Json,
-                    //     withCredentials: false
-                    // });
-                    // let body = JSON.stringify({"content": content, "parent": parent});
-                    // var headers = new Headers();
-                    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-                    // return this._http.post(this.newCommentUrl, body, {})
-                    //     .map(res => res.json());
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    headers.append('Content-Type', 'application/json; charset=utf-8');
-                    console.log('content', content);
-                    var body = { "content": content, "parent": parent };
-                    return this._http.post(this.newCommentUrl, body, headers)
-                        .map(function (res) { return res.json(); });
+                /**
+                 * edit comment
+                 * @param commentId
+                 * @param newText
+                 */
+                DataService.prototype.onEditComment = function (commentId, newText) {
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
+                    var body = { "content": newText };
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    return this._http.put(this.commentsUrl + '/' + commentId, body, options)
+                        .map(function (data) { return data.json(); });
                 };
+                /**
+                 * handle error
+                 * @param error
+                 */
                 DataService.prototype.handleError = function (error) {
                     console.error('Произошла ошибка', error);
                     return Promise.reject(error.message || error);

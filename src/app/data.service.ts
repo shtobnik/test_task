@@ -8,15 +8,19 @@ import 'rxjs/add/operator/map';
 export class DataService {
     constructor (private _http: Http) {}
 
-    private commentsUrl   = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
-    private newCommentUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
+    comments;
+    userId : string;
+    userImg: string;
 
-    getCommentsList() {
+    private commentsUrl = 'http://frontend-test.pingbull.com/pages/denis.nigegorodcev@gmail.com/comments';
+
+    /**
+     * comments list
+     */
+    commentsList() {
         let params: URLSearchParams = new URLSearchParams();
         params.set('count', '5');
         params.set('offset', '0');
-
-        console.log('params', params);
 
         return this._http.get(this.commentsUrl, {
             search: params
@@ -24,65 +28,76 @@ export class DataService {
             .map(res => res.json());
     }
 
-    sendNewComment(content: string, parent: any) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('content', 'check here');
-        params.set('parent', null);
+    getCommentsList() {
+        this.commentsList()
+        .subscribe(
+            (response: Response) => this.comments = response,
+                error => alert(error),
 
-        console.log('params', params);
-
-        return this._http.post(this.newCommentUrl, {
-            search: params
-        })
-            .map(res => res.json());
-    }
-
-
-    sendNewComment1(content: string, parent: any): Observable<Comment> {
-        let body = JSON.stringify({"content": content, "parent": parent});
-        // var headers = new Headers();
-        // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        return this._http.post(this.newCommentUrl, body, {})
-            .map(res => res.json());
+                () => {
+                    this.comments.forEach(element => {
+                        if ( element.author.id === 1 ) {
+                            this.userId  = element.author.id;
+                            this.userImg = element.author.avatar;
+                        }
+                    });
+            }
+        );
     }
 
 
 
-    sendNewComment2(content: string, parent: any) {
-
+    /**
+     * new comment
+     * @param parentId 
+     * @param content 
+     */
+    sendNewComment(parentId: any, content: string) {
         const params = new URLSearchParams();
 
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
 
-        // let setHeaders = new Headers();
-        // setHeaders.append('Content-Type', 'application/json');
+        let options = new RequestOptions({ headers: headers });
+        let body = {"content": content, "parent": parentId};
 
-        // const options = new RequestOptions({
-        //     responseType: ResponseContentType.Json,
-        //     withCredentials: false
-        // });
-
-        // let body = JSON.stringify({"content": content, "parent": parent});
-        // var headers = new Headers();
-        // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        // return this._http.post(this.newCommentUrl, body, {})
-        //     .map(res => res.json());
-
-
-        const headers = new Headers({'Content-Type': 'application/json'});
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-
-        console.log('content', content);
-
-        let body = {"content": content, "parent": parent};
-
-        return this._http.post(this.newCommentUrl, body, headers)
+        return this._http.post(this.commentsUrl, body, options)
         .map(res => res.json());
     }
 
 
 
+    /**
+     * remove comment
+     * @param commentId 
+     */
+    removeComment(commentId) {
+        return this._http.delete(this.commentsUrl + '/' + commentId)
+        .map(res => res.json());
+    }
+
+
+    /**
+     * edit comment
+     * @param commentId 
+     * @param newText 
+     */
+    onEditComment(commentId: number, newText: string) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let body = {"content": newText};
+        let options = new RequestOptions({ headers: headers });
+
+        return this._http.put(this.commentsUrl + '/' + commentId, body, options)
+        .map((data:Response) => data.json());
+    }
+
+
+    /**
+     * handle error
+     * @param error 
+     */
     private handleError(error: any) {
         console.error('Произошла ошибка', error);
         return Promise.reject(error.message || error);

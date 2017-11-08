@@ -18,6 +18,13 @@
         .comment-info-i  {
             margin-left: 10px;
 
+            @include respond-to(hand-landscape) {
+
+            }
+            @include respond-to(handhelds) {
+                margin: 5px 0;
+            }
+
             &:first-child {
                 margin-left: 0;
             }
@@ -28,6 +35,15 @@
             .info-block-i {
                 i, span {
                     font-size: 15px;
+                }
+
+                .time {
+                    color: #b6b6b6;
+                    font-family: 'Stag Book';
+
+                    strong {
+                        font-family: 'Stag Medium';
+                    }
                 }
             }
         }
@@ -56,8 +72,11 @@
         }
 
         span {
-            // margin-left: 5px;
             padding-left: 20px;
+            
+            &.edit-head {
+                padding-left: 0;
+            }
         }
 
         &:after {
@@ -69,10 +88,6 @@
         }
 
         &.cancel {
-        //     i {
-        //         margin-right: -15px;
-        //     }
-
             span {
                 padding-left: 15px;
             }

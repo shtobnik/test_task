@@ -4,7 +4,7 @@
     </header>
 
     <section class="content">
-        <h2>The Road to Home</h2>
+        <h2 class="title">The Road to Home</h2>
 
         <p class="date">June 18, 2015</p>
 
@@ -40,7 +40,7 @@
             <div class="comment new">
                 <form action="" class="clearfix" #commentForm="ngForm" (ngSubmit)="newComment(commentForm.value)" method="post">
                     <div class="img-wrap ft-l">
-                        <img src="../img/users/avatar1.png" alt="" class="photo">
+                        <img src="{{_dataService.userImg}}" alt="" class="photo">
                     </div>
                     <div class="comment-i clearfix">
                         <textarea name="newComment" id="" cols="30" rows="10" placeholder="Your Message" ngModel></textarea>

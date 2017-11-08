@@ -1,3 +1,5 @@
+@import '_mixins.scss';
+
 .clearfix:after {
     content: "";
     display: table;
@@ -23,6 +25,10 @@
 
         img {
             border-radius: 4px;
+
+            @include respond-to(handhelds) {
+                width: 20px;
+            }
         }
     }
 
@@ -32,11 +38,23 @@
 
     .comment-i {
         margin-left: 75px;
+
+        @include respond-to(handhelds) {
+            margin-left: 38px;
+        }
+
+        @include respond-to(small-screens) {
+            margin-left: 65px;
+        }
     }
 
     &.new {
         .comment-i {
-            margin-left: 110px;
+            margin-left: 75px;
+
+            @include respond-to(handhelds) {
+                margin-left: 38px;
+            }
         }
     }
 
@@ -56,7 +74,6 @@
         height: 86px;
         margin-bottom: 10px;
         padding: 14px;
-        min-width: 670px;
         width: 100%;
 
         &::placeholder {
@@ -75,6 +92,10 @@
         height: 44px;
         outline: none;
         width: 140px;
+
+        @include respond-to(handhelds) {
+            width: 100%;
+        }
 
         &:hover {
             background-color: #eec942;

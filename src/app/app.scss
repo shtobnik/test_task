@@ -6,12 +6,69 @@
 @include font-face('Stag Book', '../fonts/Stag-Book', 400, 'normal');
 
 
+header {
+    img {
+        @include respond-to(handhelds) {
+            height: 150px;
+        }
+
+        @include respond-to(hand-landscape);
+        @include respond-to(small-screens) {
+            width: 100%;
+        }
+
+    }
+}
+
 .content {
     background: #fff;
     box-shadow: 2px 0px 8px -2px #585757;
     margin: -80px 130px 0;
     padding: 50px 80px 60px;
     position: relative;
+
+    .title {
+        position: relative;
+
+
+        &:before {
+            background-image: url('./img/star.png');
+            content: '';
+            display: block;
+            height: 32px;
+            left: -56px;
+            position: absolute;
+            top: 0;
+            width: 32px;
+
+            @include respond-to(handhelds) {
+                display: none;
+            }
+
+            @include respond-to(hand-landscape) {
+                left: -45px;
+            }
+
+            @include respond-to(small-screens) {
+                left: -37px;
+            }
+        }
+
+    }
+
+    @include respond-to(handhelds) {
+        margin: -75px 10px 0;
+        padding: 20px 15px 60px;
+    }
+
+    @include respond-to(hand-landscape) {
+        margin: -80px 30px 0;
+    }
+
+    @include respond-to(small-screens) {
+        margin: -80px 20px 0;
+        padding: 25px 40px 60px;
+    }
 }
 
 h2, h3, p {
@@ -67,11 +124,41 @@ h2 {
         line-height: 25px;
         margin-bottom: 34px;
         text-align: justify;
+
+        @include respond-to(handhelds);
+        @include respond-to(small-screens) {
+            margin-bottom: 20px;
+        }
+
+        @include respond-to(medium-screens) {
+            margin-bottom: 20px;
+        }
     }
     img {
         border: 5px solid #f2f2f2;
         border-left: 0;
         margin: 0 20px 0 -80px;
+
+        @include respond-to(handhelds) {
+            float: none;
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        @include respond-to(small-screens) {
+            float: none;
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        @include respond-to(medium-screens) {
+            float: none;
+            display: block;
+            margin: 20px auto;
+        }
+
     }
 
     .article-info {
@@ -85,7 +172,29 @@ h2 {
             i, span {
                 font-size: 17px;
             }
+
+            @include respond-to(handhelds) {
+                margin: 0 0 10px 0;
+            }
+
+            
+            @include respond-to(medium-screens);
+            @include respond-to(hand-landscape);
+            @include respond-to(small-screens) {
+                display: inline-block;
+                float: none;
+                margin: 0 0 10px 20px;
+            }
         }
+
+        @include respond-to(medium-screens);
+        @include respond-to(hand-landscape);
+        @include respond-to(small-screens) {
+            text-align: center;
+        }
+
+        
+
     }
 }
 
