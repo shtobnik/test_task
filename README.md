@@ -1,7 +1,11 @@
 # test_task
 
-for run execute in the terminal
+## for run execute in the terminal
+<br />
+<br />
 
-<p>npm install</p>
-<p>npm run clean & npm run build</p>
-<p>npm start</p>
+<ol>
+<li>npm install</li>
+<li>npm run clean & npm run build</li>
+<li>npm start</li>
+</ol>
