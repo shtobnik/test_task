@@ -2,6 +2,6 @@
 
 for run execute in the terminal
 
-*npm install
-*npm run clean & npm run build
-*npm start
+<p>npm install</p>
+<p>npm run clean & npm run build</p>
+<p>npm start</p>
